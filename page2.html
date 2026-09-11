@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Our Love Story</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 20%, rgba(255, 182, 193, 0.4) 0%, rgba(255, 209, 220, 0.2) 50%, rgba(248, 250, 252, 0.95) 100%), #f8fafc;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 32px 16px 80px 16px;
+    }
+
+    .bg-glow-1 {
+      position: fixed;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 60vh;
+      background: radial-gradient(ellipse at center, rgba(255, 154, 178, 0.35) 0%, rgba(255, 192, 203, 0.15) 55%, rgba(255, 255, 255, 0) 80%);
+      filter: blur(60px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 6vw, 2.8rem);
+      font-weight: 600;
+      color: #1e293b;
+      letter-spacing: -0.02em;
+    }
+
+    .header p {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    /* Timeline Structure */
+    .timeline {
+      position: relative;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Vertical Center Dotted Line */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      bottom: 20px;
+      left: 50%;
+      width: 0;
+      transform: translateX(-50%);
+      border-left: 3px dotted #ff85a1;
+      z-index: 1;
+    }
+
+    /* Timeline Item */
+    .timeline-item {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 36px;
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Dot Marker */
+    .timeline-dot {
+      width: 44px;
+      height: 44px;
+      background: #ffffff;
+      border: 3px solid #ff4b72;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 0 12px rgba(255, 75, 114, 0.3);
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: transform 0.25s ease, background-color 0.25s ease;
+      position: relative;
+      z-index: 3;
+    }
+
+    .timeline-item:hover .timeline-dot,
+    .timeline-item:active .timeline-dot {
+      transform: scale(1.15);
+      background-color: #ffe6eb;
+    }
+
+    /* Card Box */
+    .timeline-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 20px 18px;
+      text-align: center;
+      box-shadow: 
+        0 10px 25px -5px rgba(255, 182, 193, 0.3),
+        0 0 0 1px rgba(226, 232, 240, 0.6);
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+      z-index: 3;
+    }
+
+    .timeline-card:hover, .timeline-card:active {
+      transform: translateY(-4px);
+      box-shadow: 
+        0 16px 32px -8px rgba(255, 117, 140, 0.4),
+        0 0 0 1px rgba(255, 182, 193, 0.8);
+    }
+
+    .card-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(255, 75, 114, 0.1);
+      color: #ff4b72;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
+    }
+
+    .pending-badge {
+      background: rgba(168, 85, 247, 0.15) !important;
+      color: #8b5cf6 !important;
+    }
+
+    .timeline-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .timeline-card p {
+      font-size: 0.85rem;
+      color: #64748b;
+      line-height: 1.45;
+    }
+
+    .tap-hint {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: #3b82f6;
+      font-weight: 600;
+    }
+
+    /* Next Page Navigation Button */
+    .nav-btn-container {
+      margin-top: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    .next-page-btn {
+      width: 100%;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #ff4b72 0%, #ff6b8b 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 18px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(255, 75, 114, 0.35);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      font-family: inherit;
+    }
+
+    .next-page-btn:hover, .next-page-btn:active {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(255, 75, 114, 0.45);
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 360px;
+      border-radius: 24px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      transform: scale(0.85) translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #f1f5f9;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      color: #64748b;
+    }
+
+    .modal-photo {
+      width: 100%;
+      height: 150px;
+      background-color: #ffe6eb;
+      border-radius: 16px;
+      margin: 14px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff4b72;
+      font-size: 2.8rem;
+      overflow: hidden;
+    }
+
+    .modal-text {
+      font-size: 0.875rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+
+  <div class="wrapper">
+    <div class="header">
+      <h1>Our Love Story 💖</h1>
+      <p>Scroll down to relive our special moments</p>
+    </div>
+
+    <div class="timeline">
+
+      <!-- Event 1: Day We Met -->
+      <div class="timeline-item" onclick="openModal('The Day We Met 🌸', 'November 6th, 2025', 'I still remember our very first interaction in Kiki\'s server.', '💬')">
+        <div class="timeline-dot">✨</div>
+        <div class="timeline-card">
+          <span class="card-badge">November 6th, 2025</span>
+          <h3>The Day We Met 🌸</h3>
+          <p>I still remember our very first interaction in Kiki's server.</p>
+          <span class="tap-hint">Tap to view memory ✨</span>
+        </div>
+      </div>
+
+      <!-- Event 2: Our Confession -->
+      <div class="timeline-item" onclick="openModal('Our Confession 💌', 'June 6th, 2026', 'The first time we were completely honest about our feelings for each other.', '💌')">
+        <div class="timeline-dot">💌</div>
+        <div class="timeline-card">
+          <span class="card-badge">June 6th, 2026</span>
+          <h3>Our Confession 💖</h3>
+          <p>The first time we were completely honest about our feelings for each other.</p>
+          <span class="tap-hint">Tap to view memory ✨</span>
+        </div>
+      </div>
+
+      <!-- Event 3: Proposal (THE BIG DAY) -->
+      <div class="timeline-item" onclick="openModal('My Proposal To You 💍', 'June 14th', 'I remember asking you to be my girlfriend, knowing in my heart I just wanted to call you mine.', '💍')">
+        <div class="timeline-dot" style="background:#ff4b72; color:#fff; border-color:#ff758c;">💍</div>
+        <div class="timeline-card" style="border: 2px solid rgba(255, 75, 114, 0.5); background: rgba(255, 255, 255, 0.98);">
+          <span class="card-badge" style="background: #ff4b72; color: #ffffff;">June 14th • The Big Day</span>
+          <h3>My Proposal to You 💍</h3>
+          <p>I remember asking you to be my girlfriend, just wanting to call you mine.</p>
+          <span class="tap-hint">Tap to view memory ✨</span>
+        </div>
+      </div>
+
+      <!-- Event 4: Noodle Dates -->
+      <div class="timeline-item" onclick="openModal('Our Noodle Dates 🍜', 'August 22nd', 'I love all our dates, but these are by far my favorites, especially the last one.', '🍜')">
+        <div class="timeline-dot">🍜</div>
+        <div class="timeline-card">
+          <span class="card-badge">August 22nd</span>
+          <h3>Our Noodle Dates 🍜</h3>
+          <p>I love our dates, but these are by far my favorites, especially the last one.</p>
+          <span class="tap-hint">Tap to view memory ✨</span>
+        </div>
+      </div>
+
+      <!-- Event 5: Today -->
+      <div class="timeline-item" onclick="openModal('3 Months Anniversary 🎉', 'Today', 'Happy anniversary, my princess. Today marks 3 months of us being together. It has been the best 3 months of my life. I love you so dearly and I am so thankful to have you. I thank the Lord for you every day.', '👑')">
+        <div class="timeline-dot">👑</div>
+        <div class="timeline-card">
+          <span class="card-badge" style="background: rgba(59, 130, 246, 0.1); color: #2563eb;">Today • 3 Months</span>
+          <h3>Happy Anniversary, My Princess 🎉</h3>
+          <p>Today marks 3 months of us being together. It has been the best 3 months of my life...</p>
+          <span class="tap-hint">Tap to read full message ❤️</span>
+        </div>
+      </div>
+
+      <!-- Event 6: PENDING - Our Meetup -->
+      <div class="timeline-item" onclick="openModal('Our Meetup ✈️', 'Pending • Someday', 'I can\'t wait for the day we finally hold each other in person. Someday soon.', '✈️')">
+        <div class="timeline-dot" style="border-color: #8b5cf6;">📍</div>
+        <div class="timeline-card" style="border: 1px dashed #8b5cf6;">
+          <span class="card-badge pending-badge">Pending • Someday</span>
+          <h3>Our Meetup ✈️</h3>
+          <p>Holding you in person for the very first time...</p>
+          <span class="tap-hint">Tap to view future memory ✨</span>
+        </div>
+      </div>
+
+      <!-- Event 7: PENDING - Our First Kiss -->
+      <div class="timeline-item" onclick="openModal('Our First Kiss 💋', 'Pending', 'Our first kiss, and each other\'s first too. Practice makes perfect.', '💋')">
+        <div class="timeline-dot" style="border-color: #8b5cf6;">💋</div>
+        <div class="timeline-card" style="border: 1px dashed #8b5cf6;">
+          <span class="card-badge pending-badge">Pending</span>
+          <h3>Our First Kiss 💋</h3>
+          <p>Our first kiss, and each other's first too. Practice makes perfect.</p>
+          <span class="tap-hint">Tap to view future memory ✨</span>
+        </div>
+      </div>
+
+      <!-- Event 8: PENDING - Marriage -->
+      <div class="timeline-item" onclick="openModal('Marriage 💒', 'Pending • One Day', 'One day, I\'ll give you my last name, my princess, with the grace of God.', '💒')">
+        <div class="timeline-dot" style="border-color: #8b5cf6;">💒</div>
+        <div class="timeline-card" style="border: 1px dashed #8b5cf6;">
+          <span class="card-badge pending-badge">Pending • One Day</span>
+          <h3>Marriage 💒</h3>
+          <p>One day, I'll give you my last name, my princess, with the grace of God.</p>
+          <span class="tap-hint">Tap to view future memory ✨</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation Button to Page 3 -->
+    <div class="nav-btn-container">
+      <button class="next-page-btn" onclick="window.location.href='page3.html'">
+        Read My Letter For You 💌
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="forceCloseModal()">✕</button>
+      <span class="card-badge" id="modalBadge">Date</span>
+      <h3 id="modalTitle" style="margin-top:6px; font-size:1.2rem;">Title</h3>
+      <div class="modal-photo" id="modalPhoto">🖼️</div>
+      <p class="modal-text" id="modalText">Memory description here...</p>
+    </div>
+  </div>
+
+  <script>
+    // Fade-in animation on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.15
+    });
+
+    document.querySelectorAll('.timeline-item').forEach(item => {
+      observer.observe(item);
+    });
+
+    // Modal logic
+    function openModal(title, date, text, emoji) {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalBadge').innerText = date;
+      document.getElementById('modalText').innerText = text;
+      document.getElementById('modalPhoto').innerText = emoji;
+      document.getElementById('modalOverlay').classList.add('active');
+    }
+
+    function closeModal(event) {
+      if (event.target.id === 'modalOverlay') {
+        document.getElementById('modalOverlay').classList.remove('active');
+      }
+    }
+
+    function forceCloseModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
+

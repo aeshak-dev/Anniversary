@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Happy Anniversary!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden; /* Prevents any horizontal scrolling */
+      position: relative;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 25%, rgba(255, 182, 193, 0.5) 0%, rgba(255, 209, 220, 0.3) 45%, rgba(248, 250, 252, 0.95) 100%), #f8fafc;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      text-align: center;
+    }
+
+    /* Ambient Glows bounded inside viewport */
+    .bg-glow-1 {
+      position: absolute;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 70vh;
+      background: radial-gradient(ellipse at center, rgba(255, 154, 178, 0.5) 0%, rgba(255, 192, 203, 0.2) 55%, rgba(255, 255, 255, 0) 80%);
+      filter: blur(60px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-glow-2 {
+      position: absolute;
+      bottom: -10%;
+      right: 0;
+      width: 100%;
+      height: 60vh;
+      background: radial-gradient(circle, rgba(160, 210, 255, 0.3) 0%, rgba(255, 182, 193, 0.2) 50%, rgba(255, 255, 255, 0) 75%);
+      filter: blur(60px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Main Container */
+    .app-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Header with inline-centered heart */
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 600;
+      color: #1e293b;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    /* Login Card */
+    .login-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 24px;
+      padding: 28px 20px;
+      width: 100%;
+      margin-bottom: 20px;
+      box-shadow: 
+        0 20px 40px -15px rgba(255, 182, 193, 0.25),
+        0 0 0 1px rgba(226, 232, 240, 0.6);
+    }
+
+    .card-header {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .card-header h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+    }
+
+    .card-header p {
+      font-size: 0.825rem;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* Inputs */
+    .input-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      outline: none;
+      color: #0f172a;
+      background: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .input-field:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+    }
+
+    .input-field:disabled {
+      background: #f8fafc;
+      color: #64748b;
+      border-color: #e2e8f0;
+      cursor: not-allowed;
+      font-weight: 600;
+    }
+
+    .hint-text {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.775rem;
+      color: #f43f5e;
+      margin-top: 8px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    /* Button */
+    .blue-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 6px;
+      box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .blue-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -4px rgba(37, 99, 235, 0.45);
+    }
+
+    .error-msg {
+      color: #f43f5e;
+      font-weight: 600;
+      font-size: 0.825rem;
+      margin-top: 10px;
+      min-height: 18px;
+    }
+
+    /* Duck Assistant */
+    .duck-assistant {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .speech-bubble {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #1e293b;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-size: 0.825rem;
+      font-weight: 600;
+      line-height: 1.4;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      border: 1.5px solid rgba(226, 232, 240, 0.9);
+      animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+      position: relative;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid rgba(255, 255, 255, 0.95);
+    }
+
+    .duck-avatar-wrapper {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      animation: float 4s ease-in-out infinite;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+    }
+
+    .duck-avatar-wrapper svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9) translateY(10px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <div class="app-container">
+    <h1>Happy Anniversary <span>💖</span></h1>
+
+    <div class="login-card">
+      <div class="card-header">
+        <h2>Welcome Back</h2>
+        <p>Log in to view your gift</p>
+      </div>
+
+      <div class="input-group">
+        <label>Username</label>
+        <input type="text" class="input-field" value="daddy's little girl" disabled>
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="text" id="passwordInput" class="input-field" placeholder="Enter password...">
+        <div class="hint-text">
+          <span>💡</span> Hint: Special day we confessed (e.g., "Month Day")
+        </div>
+      </div>
+
+      <button class="blue-btn" onclick="checkLogin()">Unlock ✨</button>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <!-- Centered Duck Assistant -->
+    <div class="duck-assistant">
+      <div class="speech-bubble" id="duckBubble">
+        Quack! Hi Princess! 🦆 Type our special confession date to unlock your gift!
+      </div>
+      <div class="duck-avatar-wrapper">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <path d="M45 55 C35 68 32 88 52 98 C72 108 98 92 92 72 C88 62 78 62 70 65 C60 68 55 58 45 55 Z" fill="#FFDC5D"/>
+          <!-- Wing -->
+          <path d="M68 70 C60 72 58 84 68 88 C78 90 85 80 82 72 C80 68 72 68 68 70 Z" fill="#F8C738"/>
+          <!-- Tail -->
+          <path d="M88 78 C96 76 102 70 98 64 C92 68 88 72 88 78 Z" fill="#FFDC5D"/>
+          <!-- Feet -->
+          <path d="M52 96 L48 106 M48 106 L42 108 M48 106 L52 110 M48 106 L48 111" stroke="#F0822B" stroke-width="3" stroke-linecap="round"/>
+          <path d="M72 96 L70 106 M70 106 L64 108 M70 106 L74 110 M70 106 L70 111" stroke="#F0822B" stroke-width="3" stroke-linecap="round"/>
+          <!-- Head -->
+          <circle cx="58" cy="42" r="26" fill="#FFDC5D"/>
+          <!-- Feather Tuft -->
+          <path d="M56 16 C53 10 61 10 58 17 Z" fill="#FFDC5D"/>
+          <path d="M60 17 C62 8 70 12 62 18 Z" fill="#FFDC5D"/>
+          <!-- Blush Cheek -->
+          <ellipse cx="64" cy="48" rx="5" ry="3" fill="#FF9EAA" opacity="0.6"/>
+          <!-- Eye -->
+          <circle cx="50" cy="38" r="5.5" fill="#2D2D2D"/>
+          <circle cx="52" cy="36" r="2" fill="#FFFFFF"/>
+          <!-- Beak -->
+          <path d="M34 40 C22 40 22 52 38 52 C45 52 46 44 40 41 C38 40 36 40 34 40 Z" fill="#F0822B"/>
+          <path d="M34 46 C28 46 28 50 38 50 C41 50 42 48 39 47 Z" fill="#D86B1B"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function checkLogin() {
+      const userPass = document.getElementById('passwordInput').value.trim().toLowerCase();
+      const errorMsg = document.getElementById('errorMsg');
+      const duckBubble = document.getElementById('duckBubble');
+
+      if (userPass === "june 6th" || userPass === "june 6") {
+        duckBubble.innerText = "Quack quack! Access granted! Welcome, Princess! 🎉🦆";
+        errorMsg.style.color = "#2563eb";
+        errorMsg.innerText = "Correct! Logging in...";
+        setTimeout(() => {
+          window.location.href = "page2.html";
+        }, 800);
+      } else {
+        errorMsg.style.color = "#f43f5e";
+        errorMsg.innerText = "Incorrect password! Try again 💖";
+        duckBubble.innerText = "Quack! Try typing the month name followed by the day! 🦆";
+      }
+    }
+  </script>
+</body>
+</html>
+

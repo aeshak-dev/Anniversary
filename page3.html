@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Letter & Promises For You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 20%, rgba(255, 182, 193, 0.4) 0%, rgba(255, 209, 220, 0.2) 50%, rgba(248, 250, 252, 0.95) 100%), #f8fafc;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 32px 16px 80px 16px;
+    }
+
+    .bg-glow-1 {
+      position: fixed;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 60vh;
+      background: radial-gradient(ellipse at center, rgba(255, 154, 178, 0.35) 0%, rgba(255, 192, 203, 0.15) 55%, rgba(255, 255, 255, 0) 80%);
+      filter: blur(60px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 6vw, 2.5rem);
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .header p {
+      font-size: 0.875rem;
+      color: #ff4b72;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    /* Live Counter Card */
+    .counter-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 18px 16px;
+      text-align: center;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 25px -5px rgba(255, 182, 193, 0.3);
+    }
+
+    .counter-card h2 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #ff4b72;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .timer-display {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* Envelope Letter */
+    .envelope-section {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .envelope-wrapper {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1.5px solid rgba(255, 182, 193, 0.8);
+      border-radius: 24px;
+      padding: 32px 20px;
+      cursor: pointer;
+      box-shadow: 0 12px 30px rgba(255, 182, 193, 0.25);
+      transition: transform 0.25s ease;
+    }
+
+    .envelope-wrapper:active {
+      transform: scale(0.98);
+    }
+
+    .heart-seal {
+      font-size: 3.2rem;
+      margin-bottom: 12px;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .letter-card {
+      display: none;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      text-align: left;
+      line-height: 1.7;
+      color: #334155;
+      font-size: 0.925rem;
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    .letter-card.open {
+      display: block;
+    }
+
+    .letter-card h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: #0f172a;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    /* Reasons Section (Interactive Grid) */
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.4rem;
+      text-align: center;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 18px;
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .reason-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px 12px;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .reason-card:active {
+      transform: scale(0.96);
+    }
+
+    .reason-card .card-front {
+      font-size: 1.8rem;
+    }
+
+    .reason-card .card-back {
+      display: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.35;
+    }
+
+    .reason-card.flipped {
+      background: #ffe6eb;
+      border-color: #ff85a1;
+    }
+
+    .reason-card.flipped .card-front {
+      display: none;
+    }
+
+    .reason-card.flipped .card-back {
+      display: block;
+    }
+
+    /* Main Highlighted Promise Card */
+    .main-promise-card {
+      background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 20px 18px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(255, 75, 114, 0.35);
+      margin-bottom: 24px;
+    }
+
+    .main-promise-card h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+
+    .main-promise-card h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    /* Promise Jar */
+    .jar-section {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 24px 18px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      margin-bottom: 32px;
+    }
+
+    .jar-icon {
+      font-size: 3.5rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .jar-icon:active {
+      transform: scale(0.9) rotate(-10deg);
+    }
+
+    .promise-display {
+      margin-top: 14px;
+      padding: 16px 14px;
+      background: #f8fafc;
+      border-radius: 14px;
+      border: 1px dashed #cbd5e1;
+      font-size: 0.875rem;
+      color: #334155;
+      font-weight: 600;
+      line-height: 1.5;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Navigation Button Styling */
+    .nav-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 16px;
+      background: #0f172a;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15);
+      transition: transform 0.2s ease;
+      margin-bottom: 16px;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.98);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+
+  <div class="wrapper">
+
+    <div class="header">
+      <h1>For My Princess 👑</h1>
+      <p>Something made just for you</p>
+    </div>
+
+    <!-- Live Counter -->
+    <div class="counter-card">
+      <h2>Together Since Proposal 💍</h2>
+      <div class="timer-display" id="timer">Calculating...</div>
+    </div>
+
+    <!-- Letter Section -->
+    <div class="envelope-section">
+      <div class="envelope-wrapper" id="envelope" onclick="openLetter()">
+        <div class="heart-seal">💌</div>
+        <h3 style="font-size: 1.1rem; color: #0f172a;">Tap to read my letter</h3>
+        <p style="font-size: 0.8rem; color: #64748b; margin-top: 4px;">For your eyes only</p>
+      </div>
+
+      <div class="letter-card" id="letter">
+        <h2>Hello My Sweet Girl,</h2>
+        <p>Thank you for always being there for me and for making these past 3 months so amazing. From meeting in Kiki's server to talking for hours and our noodle dates, every single second with you has been an absolute blessing.</p>
+        <br>
+        <p>I thank God every single day for bringing you into my life. I’m so excited for our future together and for all the anniversaries still to come. I love you so so much, and I'm so proud of you.</p>
+        <br>
+        <p style="text-align: right; font-weight: 700; color: #ff4b72;">Always yours, and forever mine ❤️</p>
+      </div>
+    </div>
+
+    <!-- Interactive Reasons Why I Love You -->
+    <h3 class="section-title">Why I Love You ✨</h3>
+    <p class="section-subtitle">Tap each one to see!</p>
+
+    <div class="reasons-grid">
+      <div class="reason-card" onclick="flipCard(this)">
+        <span class="card-front">😊</span>
+        <span class="card-back">Your sweet smile always makes my day better.</span>
+      </div>
+      <div class="reason-card" onclick="flipCard(this)">
+        <span class="card-front">💖</span>
+        <span class="card-back">How caring and soft-hearted you are with me.</span>
+      </div>
+      <div class="reason-card" onclick="flipCard(this)">
+        <span class="card-front">🌸</span>
+        <span class="card-back">How easy and natural it feels whenever we talk.</span>
+      </div>
+      <div class="reason-card" onclick="flipCard(this)">
+        <span class="card-front">🍜</span>
+        <span class="card-back">Our cute dates together (especially noodle dates).</span>
+      </div>
+      <div class="reason-card" onclick="flipCard(this)">
+        <span class="card-front">👑</span>
+        <span class="card-back">Because you're my princess, today and forever.</span>
+      </div>
+      <div class="reason-card" onclick="flipCard(this)">
+        <span class="card-front">✨</span>
+        <span class="card-back">The future we're building together day by day.</span>
+      </div>
+    </div>
+
+    <!-- HIGHLIGHTED MAIN PROMISE -->
+    <div class="main-promise-card">
+      <h4>My Main Promise 💖</h4>
+      <h3>"Always and forever."</h3>
+    </div>
+
+    <!-- Interactive Promise Jar -->
+    <div class="jar-section">
+      <h3 class="section-title" style="margin-bottom: 4px;">The Promise Jar 🫙</h3>
+      <p class="section-subtitle" style="margin-bottom: 12px;">Tap the jar to draw a promise!</p>
+      
+      <div class="jar-icon" onclick="drawPromise()">🫙</div>
+      
+      <div class="promise-display" id="promiseText">
+        Tap the jar to see your first promise ✨
+      </div>
+    </div>
+
+    <!-- Navigation Button to Page 4 -->
+    <a href="page4.html" class="nav-btn">Continue to Page 4 →</a>
+
+  </div>
+
+  <script>
+    // Open Letter Logic
+    function openLetter() {
+      document.getElementById('envelope').style.display = 'none';
+      document.getElementById('letter').classList.add('open');
+    }
+
+    // Flip Reasons Cards Logic
+    function flipCard(card) {
+      card.classList.toggle('flipped');
+    }
+
+    // Promise Jar Randomizer Logic
+    const promises = [
+      "I promise to stand by you against the entire world.",
+      "I promise to always be understanding.",
+      "I promise to be there for you when everyone else isn't.",
+      "I promise to take care of you.",
+      "I promise to be a good husband and a great father to our kids.",
+      "I promise to always love you unconditionally, just like how Christ loved us.",
+      "I promise to make our meetup completely unforgettable.",
+      "I promise to always thank God for bringing you into my life."
+    ];
+
+    function drawPromise() {
+      const randomIndex = Math.floor(Math.random() * promises.length);
+      const textElement = document.getElementById('promiseText');
+      textElement.style.opacity = '0';
+      
+      setTimeout(() => {
+        textElement.innerText = promises[randomIndex];
+        textElement.style.opacity = '1';
+      }, 150);
+    }
+
+    // Exact Start Time: June 14, 2026 @ 06:42:00 GMT+05:30
+    const startDate = new Date('2026-06-14T06:42:00+05:30');
+
+    function updateTimer() {
+      const now = new Date();
+      const diff = now - startDate;
+
+      if (diff < 0) {
+        document.getElementById('timer').innerText = "0 Days, 0 Hours, 0 Mins, 0 Secs";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('timer').innerText = `${days} Days, ${hours} Hours, ${minutes} Mins, ${seconds} Secs`;
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+  </script>
+</body>
+</html>
+

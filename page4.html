@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>For My Good Girl</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 20%, rgba(255, 182, 193, 0.4) 0%, rgba(255, 209, 220, 0.2) 50%, rgba(248, 250, 252, 0.95) 100%), #f8fafc;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 32px 16px 80px 16px;
+    }
+
+    .bg-glow-1 {
+      position: fixed;
+      top: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 60vh;
+      background: radial-gradient(ellipse at center, rgba(255, 154, 178, 0.35) 0%, rgba(255, 192, 203, 0.15) 55%, rgba(255, 255, 255, 0) 80%);
+      filter: blur(60px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 6vw, 2.5rem);
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* Flirty Note Box */
+    .note-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 182, 193, 0.8);
+      border-radius: 20px;
+      padding: 22px 18px;
+      text-align: center;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 25px -5px rgba(255, 182, 193, 0.3);
+    }
+
+    .note-card h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.3rem;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .note-card p {
+      font-size: 0.9rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    /* Titles */
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.4rem;
+      text-align: center;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 18px;
+    }
+
+    /* Rules Grid */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .rule-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px 12px;
+      min-height: 95px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .rule-card:active {
+      transform: scale(0.96);
+    }
+
+    .rule-card .card-front {
+      font-size: 1.8rem;
+    }
+
+    .rule-card .card-back {
+      display: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.35;
+    }
+
+    .rule-card.flipped {
+      background: #ffe6eb;
+      border-color: #ff85a1;
+    }
+
+    .rule-card.flipped .card-front {
+      display: none;
+    }
+
+    .rule-card.flipped .card-back {
+      display: block;
+    }
+
+    /* Main Highlighted Statement */
+    .main-highlight-card {
+      background: linear-gradient(135deg, #ff4b72 0%, #ff758c 100%);
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(255, 75, 114, 0.35);
+      margin-bottom: 32px;
+    }
+
+    .main-highlight-card h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+
+    .main-highlight-card h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    /* Rewards Section */
+    .rewards-section {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 24px 18px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      margin-bottom: 32px;
+    }
+
+    .gift-icon {
+      font-size: 3.5rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .gift-icon:active {
+      transform: scale(0.9) rotate(10deg);
+    }
+
+    .reward-display {
+      margin-top: 14px;
+      padding: 16px 14px;
+      background: #f8fafc;
+      border-radius: 14px;
+      border: 1px dashed #cbd5e1;
+      font-size: 0.875rem;
+      color: #334155;
+      font-weight: 600;
+      line-height: 1.5;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Bottom Navigation Button */
+    .nav-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 16px;
+      background: #0f172a;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15);
+      transition: transform 0.2s ease;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow-1"></div>
+
+  <div class="wrapper">
+
+    <div class="header">
+      <h1>My Good Girl</h1>
+    </div>
+
+    <!-- Flirty Note Box -->
+    <div class="note-card">
+      <h2>Listen to Daddy...</h2>
+      <p>You’ve been doing such an amazing job being my sweet girl. You make me so proud every single day, but never forget who you belong to.</p>
+    </div>
+
+    <!-- Rulebook Section -->
+    <h3 class="section-title">Your Rules 📜</h3>
+    <p class="section-subtitle">Tap each card to read your orders!</p>
+
+    <div class="rules-grid">
+      <div class="rule-card" onclick="flipCard(this)">
+        <span class="card-front">👑</span>
+        <span class="card-back">Rule #1: You belong to me, and nobody else.</span>
+      </div>
+      <div class="rule-card" onclick="flipCard(this)">
+        <span class="card-front">💬</span>
+        <span class="card-back">Rule #2: Tell me the truth, always. No hiding things from me.</span>
+      </div>
+      <div class="rule-card" onclick="flipCard(this)">
+        <span class="card-front">🥺</span>
+        <span class="card-back">Rule #3: When you’re upset, you come straight to me so I can fix it.</span>
+      </div>
+      <div class="rule-card" onclick="flipCard(this)">
+        <span class="card-front">🎀</span>
+        <span class="card-back">Rule #4: Relax and let me take care of you.</span>
+      </div>
+      <div class="rule-card" onclick="flipCard(this)">
+        <span class="card-front">💤</span>
+        <span class="card-back">Rule #5: Go to sleep on time when I tell you to.</span>
+      </div>
+      <div class="rule-card" onclick="flipCard(this)">
+        <span class="card-front">💖</span>
+        <span class="card-back">Rule #6: Be a good girl and behave for me.</span>
+      </div>
+    </div>
+
+    <!-- MAIN FLIRTY HIGHLIGHT CARD -->
+    <div class="main-highlight-card">
+      <h4>Official Declaration ✨</h4>
+      <h3>"You’re my good girl, and don’t you ever forget it."</h3>
+    </div>
+
+    <!-- Interactive Reward Box -->
+    <div class="rewards-section">
+      <h3 class="section-title" style="margin-bottom: 4px;">Good Girl Rewards 🎁</h3>
+      <p class="section-subtitle" style="margin-bottom: 12px;">Tap the box to claim your treat!</p>
+      
+      <div class="gift-icon" onclick="drawReward()">🎁</div>
+      
+      <div class="reward-display" id="rewardText">
+        Tap the gift above to see what you get ✨
+      </div>
+    </div>
+
+    <!-- Next Page Button -->
+    <a href="page5.html" class="nav-btn">Continue to Page 5 →</a>
+
+  </div>
+
+  <script>
+    // Flip Card Logic
+    function flipCard(card) {
+      card.classList.toggle('flipped');
+    }
+
+    // Reward Generator Logic
+    const rewards = [
+      "Soft headpats while you rest your head on me.",
+      "Soft, lingering neck kisses that make you melt.",
+      "Unlimited forehead kisses whenever you ask.",
+      "10 minutes of tight, warm hugs.",
+      "Compliments until you start blushing.",
+      "A long voice note telling you what a good girl you are.",
+      "Me taking full care of you all day."
+    ];
+
+    function drawReward() {
+      const randomIndex = Math.floor(Math.random() * rewards.length);
+      const textElement = document.getElementById('rewardText');
+      textElement.style.opacity = '0';
+      
+      setTimeout(() => {
+        textElement.innerText = rewards[randomIndex];
+        textElement.style.opacity = '1';
+      }, 150);
+    }
+  </script>
+</body>
+</html>
+
